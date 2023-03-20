@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint,abort #blueprint is used to register informations in the StudentBlueprint
-
+from flask import request
 from db import db
 from Schemas import EnrollmentSchema
 from sqlalchemy.exc import SQLAlchemyError
@@ -26,12 +26,13 @@ class EnrollmentsView(MethodView):
     
     def post(self, enrollment):
         """Create a new enrollment"""
-        db.session.add(enrollment)
+        enrollments = Enrollment(**enrollment)
+        db.session.add(enrollments)
         db.session.commit()
-        return enrollment
+        return enrollments
 
 
-@EnrollmentBlueprint.route('/enrollments/int:id')
+@EnrollmentBlueprint.route('/enrollments/<int:id>')
 class EnrollmentView(MethodView):
     @EnrollmentBlueprint.response(200, EnrollmentSchema)
     
@@ -46,13 +47,14 @@ class EnrollmentView(MethodView):
    
     def put(self, enrollment, id):
         """Update an enrollment by ID"""
-        old_enrollment = Enrollment.query.get_or_404(id)
-        old_enrollment.course_id = enrollment.course_id
-        old_enrollment.student_id = enrollment.student_id
-        old_enrollment.grades = enrollment.grades
-        old_enrollment.calculate_grade_points()
+        enrollment = Enrollment.query.get_or_404(id)
+        enrollment_data = request.json
+        enrollment.course_id = enrollment_data.get('course_id', enrollment.course_id)
+        enrollment.student_id = enrollment_data.get('student_id', enrollment.student_id)
+        enrollment.grades = enrollment_data.get('grades', enrollment.grades)
+        enrollment.calculate_grade_points()
         db.session.commit()
-        return old_enrollment
+        return enrollment
 
 
     @EnrollmentBlueprint.response(201, EnrollmentSchema)

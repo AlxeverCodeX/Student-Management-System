@@ -3,7 +3,7 @@ from flask_smorest import Blueprint,abort #blueprint is used to register informa
 from db import db
 from Schemas import StudentSchema, EnrollmentSchema
 from sqlalchemy.exc import SQLAlchemyError
-from models import Student
+from models import models, Student
 
 
 StudentBlueprint =  Blueprint("student", __name__, description="Operations on students")
@@ -31,7 +31,7 @@ class StudentsView(MethodView):
         return student
 
 
-@StudentBlueprint.route('/students/int:id')
+@StudentBlueprint.route('/students/<int:id>')
 class StudentView(MethodView):
     @StudentBlueprint.response(200, StudentSchema)
 
@@ -58,10 +58,10 @@ class StudentView(MethodView):
         student = Student.query.get_or_404(id)
         db.session.delete(student)
         db.session.commit()
-        return student
+        return ''
 
 
-@StudentBlueprint.route('/students/int:id/enrollments')
+@StudentBlueprint.route('/students/<int:id>/enrollments')
 class StudentEnrollmentsView(MethodView):
     @StudentBlueprint.response(200, EnrollmentSchema(many=True))
 

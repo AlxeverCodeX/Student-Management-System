@@ -4,7 +4,7 @@ from flask_smorest import Blueprint,abort #blueprint is used to register informa
 from db import db
 from Schemas import CourseSchema, StudentSchema
 from sqlalchemy.exc import SQLAlchemyError
-from models import models
+from models import models, Course, Enrollment
 
 
 CourseBlueprint =  Blueprint("course", __name__, description="Operations on Courses")
@@ -24,12 +24,13 @@ class CoursesView(MethodView):
 
     def post(self, course):
         """Create a new course"""
+        course = Course(**course)
         db.session.add(course)
         db.session.commit()
         return course
 
 
-@CourseBlueprint.route('/courses/int:id')
+@CourseBlueprint.route('/courses/<int:id>')
 class CourseView(MethodView):
     @CourseBlueprint.response(200, CourseSchema)
 
@@ -44,8 +45,8 @@ class CourseView(MethodView):
     def put(self, course, id):
         """Update a course by ID"""
         old_course = Course.query.get_or_404(id)
-        old_course.name = course.name
-        old_course.teacher = course.teacher
+        old_course.name = course['name']
+        old_course.teacher = course['teacher']
         db.session.commit()
         return old_course
 
@@ -56,9 +57,9 @@ class CourseView(MethodView):
         course = Course.query.get_or_404(id)
         db.session.delete(course)
         db.session.commit()
-        return course
+        return ''
 
-@CourseBlueprint.route('/courses/int:id/students')
+@CourseBlueprint.route('/courses/<int:id>/students')
 class CourseStudentsView(MethodView):
     @CourseBlueprint.response(200)
     
