@@ -20,7 +20,10 @@ This  API was built with Python's flask-smorest as part of Backend Engineering (
 2. Install the required packages using pip.
 `pip install -r requirements.txt`
 
-3. Start the Flask application.
+3. Activate Virtual Environment.
+`source api/Scripts/activate`
+
+4. Start the Flask application.
 `flask run`
 
  The application will be available at http://localhost:5000.
@@ -56,6 +59,10 @@ GET /students/{id}/courses: Retrieves all the courses that a particular student 
 GET /students/{id}/grades: Retrieves the grades for a particular student in all the courses they are registered for.
 
 GET /courses/{id}/grades: Retrieves the grades for all the students registered in a particular course.
+
+
+## Future features
+The feature that remains  to be added to this API is  Authorization and Aunthentication using JWT Tokens 
 
 
 
