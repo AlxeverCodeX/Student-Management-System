@@ -2,7 +2,7 @@
 
 This project is a RESTful API built using Flask-Smorest frameworks in Python. The API provides functionality for creating, reading, updating, and deleting students as well as registering courses. It also allows retrieving all the students, all the courses, and all the students registered in a particular course, and retrieving the grades for each student in each course. It calculates the GPA for each student based on their grades in each course.
 
-This  API was built with Python's flask-smorest as part of Backend Engineering (Python) Third Semester Examination Project at [Altschool Africa](https://www.altschoolafrica.com/)
+
 
 
 
@@ -78,10 +78,4 @@ Project Link: [Student-Management-System](https://github.com/AlxeverCodeX/Studen
 Distributed under the MIT License. See <a href="https://github.com/AlxeverCodeX/Student-Management-System/blob/main/LICENSE">LICENSE</a> for more information.
 
 
-## Acknowledgements
-
-This project was made possible by:
-
-* [AltSchool Africa School of Engineering](https://altschoolafrica.com/schools/engineering)
-* [Caleb Emelike's Flask Lessons](https://github.com/CalebEmelike)
 
